@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossy Road</title>
-    <link rel="stylesheet" href="app.js">
+    <title>Crossy Road Kuromi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="icon" type="image/jpg" href="/images/favicon2.png"/>
 </head>
-<body>
-    <div>
-        <canvas></canvas>
+
+<body x-data="app()" class="bg-black">
+    <div class="text-center text-violet-500">
+        <h1 class="text-xl">Instrucciones:</h1>
+        <p>Mover a Kuromi con ⬅️⬆️➡️⬇️ de su computadora, y tiene como ventaja <br> 
+            presionar "space" para aumentar la velocidad de Kuromi ¡Suerte! 💜</p>
     </div>
+    <div class="flex justify-center items-center h-screen-0">
+
+        <canvas id="myCanvas" width="540" height="510" c style="background-image: url(/images/bg-1.png); "></canvas>
+
+    </div>
+    <script src="app.js"></script>
 </body>
+
 </html>
