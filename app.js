@@ -12,14 +12,17 @@ function app() {
     let obstáculos = [];
     let velocidadJuego = 0.5;
     let juegoTerminado = false;
+    let juegoGanado = false;
     var speed = 5;
     var image = new Image();
     var image2 = new Image();
     var musicaFondo = new Audio()
     var gameOver = new Audio()
     var subirNivel = new Audio()
-    var tiempoRestante = 180;
+    var ganaste = new Audio()
+    var tiempoRestante = 60;
 
+    ganaste.src ="/audio/victoria.mp3";
     subirNivel.src = "/audio/subir-nivel.mp3";
     gameOver.src = "/audio/game-over.mp3";
     musicaFondo.src = "/audio/musicaDeFondo.mp3";
@@ -48,10 +51,10 @@ function app() {
         if (tiempoRestante <= 0) {
 
             juegoTerminado = true;
-            if (juegoTerminado = true) {
+            if ((juegoTerminado = true) || (juegoGanado = true)) {
                 musicaFondo.pause();
                 gameOver.play();
-                gameOver.pause();
+
             }
         }
     }
@@ -77,7 +80,7 @@ function app() {
     }
 
     function actualizarJuego() {
-        
+
         if (!juegoTerminado) {
             musicaFondo.play()
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,8 +89,6 @@ function app() {
             for (let i = 0; i < obstáculos.length; i++) {
                 obstáculos[i].y += velocidadJuego;
 
-                //collisiones🥲
-
                 if (
                     jugadorX < obstáculos[i].x + obstáculos[i].ancho &&
                     jugadorX + tamañoJugador > obstáculos[i].x &&
@@ -95,66 +96,93 @@ function app() {
                     jugadorY + tamañoJugador > obstáculos[i].y
                 ) {
                     juegoTerminado = true;
-                    if (juegoTerminado = true) {
+                    if ((juegoTerminado = true) || (juegoGanado = true)) {
                         musicaFondo.pause();
                         gameOver.play();
-                        gameOver.pause();
                     }
-                } else if (jugadorX < objetivoX + tamañoObjetivo &&
+                } else if (
+                    jugadorX < objetivoX + tamañoObjetivo &&
                     jugadorX + tamañoJugador > objetivoX &&
                     jugadorY < objetivoY + tamañoObjetivo &&
-                    jugadorY + tamañoJugador > objetivoY) {
-                    
-                     subirNivel.play();
-                    nivel++;
-                    if (nivel > 3) {
-                        // Si superamos el nivel 3, reiniciamos a nivel 1
-                        nivel = 1;
+                    jugadorY + tamañoJugador > objetivoY
+                ) {
+
+                    if (nivel < 3) {
+                        subirNivel.play();
+                        nivel++;
+                        jugadorX = 5;
+                        velocidadJuego += 0.4;
+                        objetivoX = canvas.width - tamañoObjetivo;
+                    } else {
+                        juegoGanado = true;
+                        juegoTerminado = true;
+                        musicaFondo.pause();
+                        mostrarGanaste();
+                        ganaste.play();
                     }
-                    
+
 
                 }
 
                 if (obstáculos[i].y > canvas.height) {
-                    obstáculos.splice(i, 1);
+                    obstáculos.splice(i, 2);
                     i--;
                     puntaje++;
                 }
-                
-                
+
+
             }
 
             dibujarObstáculos();
 
             mostrarInfo();
 
-            // if (puntaje % 10 === 0 && velocidadJuego < 6) {
-            //     velocidadJuego += 0.1;
-                
-            // }
-            if (puntaje === 10) {
-                nivel = 2;  
-                jugadorX = 5; 
-                velocidadJuego = 0.7;  
-            }
-            
+            if (puntaje % 10 === 0 && velocidadJuego < 6) {
+                velocidadJuego += 0.2;
 
+            }
             requestAnimationFrame(actualizarJuego);
-        } else {
+        
+        }else {
             clearInterval(temporizador); 
-            ctx.fillStyle = "rgba(142, 64, 203,68%)";
+              if (juegoGanado) {
+               mostrarGanaste();
+               ganaste.play();
+            } else {
+               mostrarPerdiste();
+            }
+        }
+    
+    }
+
+    function mostrarPerdiste() {
+        ctx.fillStyle = "rgba(142, 64, 203, 0.6)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "black";
             ctx.font = "50px Arial";
             ctx.fillText("Game Over ☠️", canvas.width / 2 - 150, canvas.height / 2);
-        }
+    }
+
+    function mostrarGanaste() {
+
+        ctx.fillStyle = "rgba(142, 64, 203, 0.6)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "black";
+        ctx.font = "50px Arial";
+        ctx.fillText("¡Ganaste! 💖", canvas.width / 2 - 150, canvas.height / 2);
+
     }
 
     function crearObstáculo() {
-        const anchoObstáculo = Math.random() * 100 + 20;
-        const xObstáculo = Math.random() * (canvas.width - anchoObstáculo);
-        const yObstáculo = 0;
-        obstáculos.push({ x: xObstáculo, y: yObstáculo, ancho: anchoObstáculo, alto: 20 });
+        const cantidadObstaculos = 2; 
+
+        for (let i = 0; i < cantidadObstaculos; i++) {
+            const anchoObstáculo = Math.random() * 100 + 20;
+            const xObstáculo = Math.random() * (canvas.width - anchoObstáculo);
+            const yObstáculo = 0; 
+            obstáculos.push({ x: xObstáculo, y: yObstáculo, ancho: anchoObstáculo, alto: 20 });
+        }
+    
     }
 
     window.addEventListener("keydown", (e) => {
