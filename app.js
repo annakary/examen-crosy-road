@@ -15,18 +15,21 @@ function app() {
     var speed = 5;
     var image = new Image();
     var image2 = new Image();
-   
-    let animatingRight = true;
-    let posX = 15;
+    var musicaFondo = new Audio()
+    var gameOver = new Audio()
+    var subirNivel = new Audio()
+    var tiempoRestante = 180;
 
+    subirNivel.src = "/audio/subir-nivel.mp3";
+    gameOver.src = "/audio/game-over.mp3";
+    musicaFondo.src = "/audio/musicaDeFondo.mp3";
     image.src = "/images/kuromi.sprite.png";
     image2.src = "/images/mymelody-sprite.png";
-    
 
-    // Temporizador de 3 minutos (180 segundos)
-    let tiempoRestante = 180;
 
-    // Función para mostrar el tiempo en el canvas
+
+
+
     function mostrarInfo() {
         ctx.fillStyle = "white";
         ctx.font = "20px Arial";
@@ -36,27 +39,27 @@ function app() {
         const segundos = tiempoRestante % 60;
         const tiempoFormateado = `${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
         ctx.fillText("Tiempo: " + tiempoFormateado, 15, 80);
-        
+
     }
 
-    // Restar tiempo del temporizador
+
     function restarTiempo() {
         tiempoRestante--;
         if (tiempoRestante <= 0) {
-            // Si el tiempo se agota, termina el juego
+
             juegoTerminado = true;
+            if (juegoTerminado = true) {
+                musicaFondo.pause();
+                gameOver.play();
+                gameOver.pause();
+            }
         }
     }
 
-    // Iniciar el temporizador
-    const temporizador = setInterval(restarTiempo, 1000); // Restar 1 segundo cada segundo
 
-    // Restaurar el temporizador a 3 minutos
-    function reiniciarTemporizador() {
-        tiempoRestante = 180;
-        clearInterval(temporizador);
-        temporizador = setInterval(restarTiempo, 1000); // Restar 1 segundo cada segundo
-    }
+    const temporizador = setInterval(restarTiempo, 1000);
+
+
 
     function dibujarJugador() {
         ctx.drawImage(image, jugadorX, jugadorY, tamañoJugador, 80);
@@ -74,7 +77,9 @@ function app() {
     }
 
     function actualizarJuego() {
+        
         if (!juegoTerminado) {
+            musicaFondo.play()
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             dibujarJugador();
             dibujarObjetivo();
@@ -90,6 +95,24 @@ function app() {
                     jugadorY + tamañoJugador > obstáculos[i].y
                 ) {
                     juegoTerminado = true;
+                    if (juegoTerminado = true) {
+                        musicaFondo.pause();
+                        gameOver.play();
+                        gameOver.pause();
+                    }
+                } else if (jugadorX < objetivoX + tamañoObjetivo &&
+                    jugadorX + tamañoJugador > objetivoX &&
+                    jugadorY < objetivoY + tamañoObjetivo &&
+                    jugadorY + tamañoJugador > objetivoY) {
+                    
+                     subirNivel.play();
+                    nivel++;
+                    if (nivel > 3) {
+                        // Si superamos el nivel 3, reiniciamos a nivel 1
+                        nivel = 1;
+                    }
+                    
+
                 }
 
                 if (obstáculos[i].y > canvas.height) {
@@ -97,19 +120,28 @@ function app() {
                     i--;
                     puntaje++;
                 }
+                
+                
             }
 
             dibujarObstáculos();
 
             mostrarInfo();
 
-            if (puntaje % 10 === 0 && velocidadJuego < 6) {
-                velocidadJuego += 0.1;
+            // if (puntaje % 10 === 0 && velocidadJuego < 6) {
+            //     velocidadJuego += 0.1;
+                
+            // }
+            if (puntaje === 10) {
+                nivel = 2;  
+                jugadorX = 5; 
+                velocidadJuego = 0.7;  
             }
+            
 
             requestAnimationFrame(actualizarJuego);
         } else {
-            clearInterval(temporizador); // Detener el temporizador al finalizar el juego
+            clearInterval(temporizador); 
             ctx.fillStyle = "rgba(142, 64, 203,68%)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "black";
