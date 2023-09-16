@@ -1,4 +1,5 @@
 function app() {
+
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
     const tamañoJugador = 70;
@@ -21,14 +22,37 @@ function app() {
     var subirNivel = new Audio()
     var ganaste = new Audio()
     var tiempoRestante = 60;
+    
 
-    ganaste.src ="/audio/victoria.mp3";
+    ganaste.src = "/audio/victoria.mp3";
     subirNivel.src = "/audio/subir-nivel.mp3";
     gameOver.src = "/audio/game-over.mp3";
     musicaFondo.src = "/audio/musicaDeFondo.mp3";
     image.src = "/images/kuromi.sprite.png";
     image2.src = "/images/mymelody-sprite.png";
 
+    let juegoIniciado = false;
+    const portada = document.getElementById('portada');
+    const startGameButton = document.getElementById('startGameButton');
+
+    // Mostrar la portada inicialmente
+    portada.classList.remove('hidden');
+    canvas.classList.add('hidden');
+
+    startGameButton.addEventListener('click', () => {
+        // Oculta la portada
+        portada.classList.add('hidden');
+
+        // Muestra el canvas
+        canvas.classList.remove('hidden');
+        if (!juegoIniciado) {
+            iniciarJuego();
+            juegoIniciado = true;
+
+        }
+    });
+
+    
 
 
 
@@ -78,11 +102,14 @@ function app() {
             ctx.fillRect(obstáculo.x, obstáculo.y, obstáculo.ancho, obstáculo.alto);
         }
     }
-
+    function iniciarJuego() {
+        actualizarJuego();
+        musicaFondo.play()
+    }
     function actualizarJuego() {
 
         if (!juegoTerminado) {
-            musicaFondo.play()
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             dibujarJugador();
             dibujarObjetivo();
@@ -111,7 +138,7 @@ function app() {
                         subirNivel.play();
                         nivel++;
                         jugadorX = 5;
-                        velocidadJuego += 0.4;
+                        velocidadJuego += 0.9;
                         objetivoX = canvas.width - tamañoObjetivo;
                     } else {
                         juegoGanado = true;
@@ -137,30 +164,27 @@ function app() {
 
             mostrarInfo();
 
-            if (puntaje % 10 === 0 && velocidadJuego < 6) {
-                velocidadJuego += 0.2;
-
-            }
+            
             requestAnimationFrame(actualizarJuego);
-        
-        }else {
-            clearInterval(temporizador); 
-              if (juegoGanado) {
-               mostrarGanaste();
-               ganaste.play();
+
+        } else {
+            clearInterval(temporizador);
+            if (juegoGanado) {
+                mostrarGanaste();
+                ganaste.play();
             } else {
-               mostrarPerdiste();
+                mostrarPerdiste();
             }
         }
-    
+
     }
 
     function mostrarPerdiste() {
         ctx.fillStyle = "rgba(142, 64, 203, 0.6)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "black";
-            ctx.font = "50px Arial";
-            ctx.fillText("Game Over ☠️", canvas.width / 2 - 150, canvas.height / 2);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "black";
+        ctx.font = "50px Arial";
+        ctx.fillText("Game Over ☠️", canvas.width / 2 - 150, canvas.height / 2);
     }
 
     function mostrarGanaste() {
@@ -174,15 +198,13 @@ function app() {
     }
 
     function crearObstáculo() {
-        const cantidadObstaculos = 2; 
-
-        for (let i = 0; i < cantidadObstaculos; i++) {
+       
             const anchoObstáculo = Math.random() * 100 + 20;
             const xObstáculo = Math.random() * (canvas.width - anchoObstáculo);
-            const yObstáculo = 0; 
+            const yObstáculo = 0;
             obstáculos.push({ x: xObstáculo, y: yObstáculo, ancho: anchoObstáculo, alto: 20 });
-        }
-    
+       
+
     }
 
     window.addEventListener("keydown", (e) => {

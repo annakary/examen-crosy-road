@@ -5,20 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crossy Road Kuromi</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="icon" type="image/jpg" href="/images/favicon2.png"/>
+    <link rel="icon" type="image/jpg" href="/images/favicon2.png" />
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
 
+        #portada {
+            margin-bottom: 20px;
+        }
+
+        #startGameButton {
+            font-size: 24px;
+            background-color: #d034db;
+            color: #fff;
+            border: none;
+            position: absolute;
+            left: 45%;
+            border-radius: 1.5em;
+            color: white;
+            text-transform: uppercase;
+            padding: 1em 1.5em;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        #startGameButton:hover {
+            background-color: #a210f6d7;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body x-data="app()" class="bg-black">
     <div class="text-center text-violet-500">
         <h1 class="text-xl">Instrucciones:</h1>
         <h2>💖 Salva a My Melody 💖</h2>
-        <p>Mover a Kuromi con ⬅️⬆️➡️⬇️ de su computadora, y tiene como ventaja <br> 
+        <p>Mover a Kuromi con ⬅️⬆️➡️⬇️ de su computadora, y tiene como ventaja <br>
             presionar "space" para aumentar la velocidad de Kuromi ¡Suerte! 💜</p>
+
+    </div>
+    <div id="portada" class="flex justify-center items-center h-screen-0">
+        <img src="/images/portada.png" alt="portada" width="1000" height="510">
+        <button id="startGameButton">Iniciar Juego</button>
     </div>
     <div class="flex justify-center items-center h-screen-0">
 
