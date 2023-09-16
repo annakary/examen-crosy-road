@@ -24,12 +24,12 @@ function app() {
     var tiempoRestante = 60;
     
 
-    ganaste.src = "audio/victoria.mp3";
-    subirNivel.src = "audio/subir-nivel.mp3";
-    gameOver.src = "audio/game-over.mp3";
-    musicaFondo.src = "audio/musicaDeFondo.mp3";
-    image.src = "images/kuromi.sprite.png";
-    image2.src = "images/mymelody-sprite.png";
+    ganaste.src = "https://firebasestorage.googleapis.com/v0/b/examen-kuromi.appspot.com/o/audio%2Fvictoria.mp3?alt=media&token=70d26a8d-837e-4c8a-9c1f-29da91352719";
+    subirNivel.src = "https://firebasestorage.googleapis.com/v0/b/examen-kuromi.appspot.com/o/audio%2Fsubir-nivel.mp3?alt=media&token=1405d236-111e-45a4-83f4-e515e1220ddb";
+    gameOver.src = "https://firebasestorage.googleapis.com/v0/b/examen-kuromi.appspot.com/o/audio%2Fgame-over.mp3?alt=media&token=a82c22ab-7dbd-48a2-bda5-5b288bf6551e";
+    musicaFondo.src = "https://firebasestorage.googleapis.com/v0/b/examen-kuromi.appspot.com/o/audio%2FmusicaDeFondo.mp3?alt=media&token=57851fa4-d7f6-497e-bec4-ef05bf1bd829";
+    image.src = "https://firebasestorage.googleapis.com/v0/b/examen-kuromi.appspot.com/o/images%2Fkuromi.sprite.png?alt=media&token=179164b6-a2d8-490b-9ed4-c2929d090d3a";
+    image2.src = "https://firebasestorage.googleapis.com/v0/b/examen-kuromi.appspot.com/o/images%2Fmymelody-sprite.png?alt=media&token=b2b2d86b-6762-4e3a-aaa3-568b2a3c1ad1";
 
     let juegoIniciado = false;
     const portada = document.getElementById('portada');
