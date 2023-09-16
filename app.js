@@ -29,7 +29,7 @@ function app() {
     gameOver.src = "audio/game-over.mp3";
     musicaFondo.src = "audio/musicaDeFondo.mp3";
     image.src = "images/kuromi.sprite.png";
-    image2.src = "images/mymelody-sprite.png";
+    image2.src = "/images/mymelody-sprite.png";
 
     let juegoIniciado = false;
     const portada = document.getElementById('portada');
