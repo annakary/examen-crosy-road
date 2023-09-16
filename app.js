@@ -24,11 +24,11 @@ function app() {
     var tiempoRestante = 60;
     
 
-    ganaste.src = "audio/victoria.mp3";
-    subirNivel.src = "audio/subir-nivel.mp3";
-    gameOver.src = "audio/game-over.mp3";
-    musicaFondo.src = "audio/musicaDeFondo.mp3";
-    image.src = "images/kuromi.sprite.png";
+    ganaste.src = "/audio/victoria.mp3";
+    subirNivel.src = "/audio/subir-nivel.mp3";
+    gameOver.src = "/audio/game-over.mp3";
+    musicaFondo.src = "/audio/musicaDeFondo.mp3";
+    image.src = "/images/kuromi.sprite.png";
     image2.src = "/images/mymelody-sprite.png";
 
     let juegoIniciado = false;
